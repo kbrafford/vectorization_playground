@@ -3,6 +3,7 @@ TARGET = demo.out
 $(TARGET): main.o libfma.a
 	gcc $^ -o $@
 	strip $@
+	go build fma.go
 
 main.o: main.c
 	gcc -c $< -o $@
