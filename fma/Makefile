@@ -1,7 +1,8 @@
-TARGET = demo
+TARGET = demo.out
 
 $(TARGET): main.o libfma.a
 	gcc $^ -o $@
+	strip $@
 
 main.o: main.c
 	gcc -c $< -o $@
