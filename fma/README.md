@@ -7,7 +7,7 @@ Floating point computations of the form:
 A = A * B + C
 ```
 
-have to follow [IEEE-754](https://en.wikipedia.org/wiki/IEEE_floating_pointi "In-depth information about floating-point").  These rules include [specific rounding conventions](https://en.wikipedia.org/wiki/IEEE_floating_point#Rounding_rules) after each operation. Thus, our example form is actually implemented thusly:
+have to follow [IEEE-754](https://en.wikipedia.org/wiki/IEEE_floating_pointi "In-depth information about floating-point").  These rules include [specific rounding conventions](https://en.wikipedia.org/wiki/IEEE_floating_point#Rounding_rules) after each operation. Our example form is actually implemented thusly:
 
 ```python
 temp = round(A * B)
