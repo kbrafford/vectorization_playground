@@ -3,6 +3,11 @@
 
 void main(void)
 {
-  printf("Answer is: %f\n", fma_ff(12.1f, 2.0f, 1.0f));
+  float A = 12.25e-13f;
+  float B = 1.2e-8f;
+  float C = 5.25e-1f;
+
+  printf("Traditional answer is: %f\n", A*B + C);
+  printf("Fused answer is:       %f\n", fma_ff(A, B, C));
 }
 
