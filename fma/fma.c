@@ -91,7 +91,7 @@ float HornerEvaluate_sp (float x, float *CoefficientsOfPolynomial, unsigned int 
 }
 
 
-float horner_fma_sp(float x, const float *coeffs, size_t count)
+float horner_fma_sp(float x, const float *coeffs, unsigned int count)
 {
   float result = 0.0f;
   for (int idx = count-1; idx >= 0; idx--)
@@ -99,7 +99,7 @@ float horner_fma_sp(float x, const float *coeffs, size_t count)
   return result;
 }
 
-double horner_fma_dp(double x, const double *coeffs, size_t count)
+double horner_fma_dp(double x, const double *coeffs, unsigned int count)
 {
   double result = 0.0;
   for (int idx = count-1; idx >= 0; idx--)

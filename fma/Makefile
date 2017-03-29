@@ -1,7 +1,7 @@
 TARGET = demo.out
 
-$(TARGET): main.o libfma.a
-	gcc $^ -o $@
+$(TARGET): main.o libfma.a fma.go
+	gcc main.o libfma.a -o $@
 	strip $@
 	go build fma.go
 
