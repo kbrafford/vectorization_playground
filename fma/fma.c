@@ -1,51 +1,38 @@
 #include <immintrin.h>
 #include "fma.h"
 
-float fma_ff(float A, float B, float C)
+void fma_ff(float *A, float *B, float C, float *res)
 {
-  __m128 veca = _mm_set1_ps(A);
-  __m128 vecb = _mm_set1_ps(B);
+  __m128 veca = _mm_set_ps(A[0], A[1], A[2], A[3]);
+  __m128 vecb = _mm_set_ps(B[0], B[1], B[2], B[3]);
   __m128 vecc = _mm_set1_ps(C);
   __m128 result = _mm_fmadd_ps(veca, vecb, vecc);
 
-  float *res = (float*) &result;
+  float *pres = (float*) &result;
 
-  return res[0];
+  res[0] = pres[0];
+  res[1] = pres[1];
+  res[2] = pres[2];
+  res[3] = pres[3];
+
+  return;
 }
 
-float fma_fd(double A, double B, double C)
+void fma_dd(double *A, double *B, double C, double *res)
 {
-  __m128d veca = _mm_set1_pd(A);
-  __m128d vecb = _mm_set1_pd(B);
+  __m128d veca = _mm_set_pd(A[0], A[1]);
+  __m128d vecb = _mm_set_pd(B[0], B[1]);
   __m128d vecc = _mm_set1_pd(C);
   __m128d result = _mm_fmadd_pd(veca, vecb, vecc);
 
-  double *res = (double*) &result;
+  double *pres = (double*) &result;
 
-  return (float)(res[0]);
+  res[0] = pres[0];
+  res[1] = pres[1];
+
+  return;
 }
 
-double fma_dd(double A, double B, double C)
-{
-  __m128d veca = _mm_set1_pd(A);
-  __m128d vecb = _mm_set1_pd(B);
-  __m128d vecc = _mm_set1_pd(C);
-  __m128d result = _mm_fmadd_pd(veca, vecb, vecc);
-
-  double *res = (double*) &result;
-
-  return (res[0]);
-}
-
-float x87fma_ff(float A, float B, float C)
-{
-	return A * B + C;
-}
-
-float x87fma_fd(double A, double B, double C)
-{
-	return (float) (A * B + C);
-}
 
 /*
  *   Horner's Method for polynomial evaluation
@@ -56,55 +43,23 @@ float x87fma_fd(double A, double B, double C)
 /*
  *  Serial Horner's method...double precision
  */
-double HornerEvaluate (double x, double * CoefficientsOfPolynomial, unsigned int DegreeOfPolynomial)
+
+void horner_fma_sp(float *x, const float *coeffs, unsigned int count, float *res)
 {
-  /*
-      We want to evaluate the polynomial in x, of coefficients CoefficientsOfPolynomial, using Horner's method.
-      The result is stored in dbResult.
-  */
-  double dbResult = 0.0;
-  int i;
-  for(i = DegreeOfPolynomial; i >= 0; i--)
-  {
-    dbResult = dbResult * x + CoefficientsOfPolynomial[i];
-  }
-  return dbResult;
-}
-
-
-/*
- *  Serial Horner's method...single precision
- */
-float HornerEvaluate_sp (float x, float *CoefficientsOfPolynomial, unsigned int DegreeOfPolynomial)
-{
-  /*
-      We want to evaluate the polynomial in x, of coefficients CoefficientsOfPolynomial, using Horner's method.
-      The result is stored in dbResult.
-  */
-  float fResult = 0.0f;
-  int i;
-  for(i = DegreeOfPolynomial; i >= 0; i--)
-  {
-    fResult = fResult * x + CoefficientsOfPolynomial[i];
-  }
-  return fResult;
-}
-
-
-float horner_fma_sp(float x, const float *coeffs, unsigned int count)
-{
-  float result = 0.0f;
+  res[0] = res[1] = res[2] = res[3] = 0.0f;
   int idx;
   for (idx = count-1; idx >= 0; idx--)
-    result = fma_ff(result, x, coeffs[idx]);
-  return result;
+    fma_ff(res, x, coeffs[idx], res);
+
+  return;
 }
 
-double horner_fma_dp(double x, const double *coeffs, unsigned int count)
+void horner_fma_dp(double *x, const double *coeffs, unsigned int count, double *res)
 {
-  double result = 0.0;
+  res[0] = res[1] = 0.0;
   int idx;
   for (idx = count-1; idx >= 0; idx--)
-    result = fma_dd(result, x, coeffs[idx]);
-  return result;
+    fma_dd(res, x, coeffs[idx], res);
+
+  return;
 }
