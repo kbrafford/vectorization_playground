@@ -13,7 +13,7 @@ func HornerEvaluate_sp (x []float32, coeffs []float32, count uint) (float32, flo
                   (*C.float)(unsafe.Pointer(&coeffs[0])),
                    C.uint(count), (*C.float)(unsafe.Pointer(&res[0])))
 
-  return res[3], res[2], res[1], res[0]
+  return res[0], res[1], res[2], res[3]
 }
 
 func HornerEvaluate_dp (x []float64, coeffs []float64, count uint) (float64, float64) {
@@ -23,7 +23,7 @@ func HornerEvaluate_dp (x []float64, coeffs []float64, count uint) (float64, flo
                   (*C.double)(unsafe.Pointer(&coeffs[0])),
                    C.uint(count), (*C.double)(unsafe.Pointer(&res[0])))
 
-  return res[1], res[0]
+  return res[0], res[1]
 }
 
  

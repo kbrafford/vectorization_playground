@@ -32,7 +32,7 @@ inline static __m128 _fma_ff_vec(__m128 *veca, __m128 *vecb, float C)
 
 void horner_fma_sp(float *x, float *coeffs, unsigned int count, float *res)
 {
-  __m128 vec_x = _mm_set_ps(x[0], x[1], x[2], x[3]);
+  __m128 vec_x = _mm_set_ps(x[3], x[2], x[1], x[0]);
   __m128 vec_res = _mm_set1_ps(0.0f);
 
   int idx;
@@ -57,7 +57,7 @@ inline static __m128d _fma_dd_vec(__m128d *veca, __m128d *vecb, double C)
 
 void horner_fma_dp(double *x, double *coeffs, unsigned int count, double *res)
 {
-  __m128d vec_x = _mm_set_pd(x[0], x[1]);
+  __m128d vec_x = _mm_set_pd(x[1], x[0]);
   __m128d vec_res = _mm_set1_pd(0.0);
 
   int idx;

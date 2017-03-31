@@ -16,7 +16,7 @@ void main(void)
 
   horner_fma_sp(x, coeffs, 3, results);
 
-  printf("%f, %f, %f, %f\n", results[3],results[2], results[1], results[0]);
+  printf("%f, %f, %f, %f\n", results[0],results[1], results[2], results[3]);
 
   printf("\nDouble precision:\n");
 
@@ -30,7 +30,7 @@ void main(void)
 
   horner_fma_dp(x_dp, coeffs_dp, 3, results_dp);
 
-  printf("%f, %f\n", results_dp[1], results_dp[0]);
+  printf("%f, %f\n", results_dp[0], results_dp[1]);
 
 }
 
