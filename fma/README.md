@@ -26,3 +26,8 @@ Here is a good discussion of the real usage of the FMA instructions: http://stac
 
 This mini-project only serves to expose the mathematical primitive to [C](https://www.amazon.com/Programming-Language-Brian-W-Kernighan/dp/0131103628/ref=sr_1_1?ie=UTF8&qid=1490511096&sr=8-1&keywords=the+c+programming+language) and [Go](https://www.amazon.com/Programming-Language-Addison-Wesley-Professional-Computing/dp/0134190440/ref=sr_1_1?ie=UTF8&qid=1490511148&sr=8-1&keywords=the+go+programming+language) programs for the purpose of evaluating the mathematical merits of the FMA concept.
 
+### Horner's Method
+
+Go read this: https://en.wikipedia.org/wiki/Horner%27s_method
+
+Pay special attention to the section that shows how Horner's method makes awesome use of a fused multiply-add operation. This library exploits that.
