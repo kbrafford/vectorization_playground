@@ -48,16 +48,16 @@ void main(void)
 							 1.0/(9*8*7*6*5*4*3*2)  /* x^9 */
                            };
 
+  /* create an array of all of the X positions to evaluate */
 #define _TAU (2.0*3.14159265359)
-
-  float x_sp_avx2[] = { _TAU * (0. / 8.0),
-		                _TAU * (1. / 8.0),
-		                _TAU * (2. / 8.0),
-		                _TAU * (3. / 8.0),
-		                _TAU * (4. / 8.0),
-		                _TAU * (5. / 8.0),
-		                _TAU * (6. / 8.0),
-		                _TAU * (7. / 8.0),
+  float x_sp_avx2[] = { -_TAU * (3. / 8.0),
+		                -_TAU * (2. / 8.0),
+		                -_TAU * (1. / 8.0),
+ 		                 _TAU * (0. / 8.0),
+ 		                 _TAU * (1. / 8.0),
+		                 _TAU * (2. / 8.0),
+		                 _TAU * (3. / 8.0),
+		                 _TAU * (4. / 8.0),
                       };
   float results_sp_avx2[8];
 
@@ -67,14 +67,7 @@ void main(void)
 
   float *p = results_sp_avx2;
   printf("\n%f %f %f %f %f %f %f %f\n",
-		  p[0],
-		  p[1],
-		  p[2],
-		  p[3],
-          p[4],
-		  p[5],
-		  p[6],
-	      p[7]);
+		  p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
 
 #undef _TAU
 }
