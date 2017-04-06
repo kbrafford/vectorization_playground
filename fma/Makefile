@@ -1,12 +1,14 @@
-TARGET := demo.out
+CTARGET := democ
 STATICLIB := libfma.a
-SHAREDLIB := libfma.so
+SHAREDLIB := libfmashared.so
+GOTARGET := demogo
 LIBSRC := fma.c
 LIBOBJ := $(LIBSRC:.c=.o)
 LIBDEP := $(LIBOBJ:.o=.d)
 MAINSRC := main.c
 MAINOBJ := $(MAINSRC:.c=.o)
 MAINDEP := $(MAINOBJ:.o=.d)
+GOSRC := fma.go
 DEPS := $(LIBDEP) $(MAINDEP)
 OBJS := $(MAINOBJ) $(LIBOBJ)
 
@@ -16,12 +18,14 @@ CPPFLAGS += -MP
 CFLAGS := -fPIC
 CFLAGS += -mfma
 
-all : $(TARGET) $(STATICLIB) $(SHAREDLIB)
+all : $(CTARGET) $(STATICLIB) $(SHAREDLIB) $(GOTARGET)
 
-$(TARGET): main.o $(STATICLIB) fma.go
+$(CTARGET): main.o $(STATICLIB) fma.go
 	gcc -o $@ $(filter %.o,$^) $(STATICLIB)
 	strip $@
-	go build fma.go
+
+$(GOTARGET): $(GOSRC) $(STATICLIB)
+	go build -o $(GOTARGET) $(GOSRC)
 
 %.o : %.c
 	gcc $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
@@ -33,6 +37,6 @@ $(SHAREDLIB): $(LIBOBJ)
 	gcc -shared -o $@ $^
 
 clean:
-	rm -f *.o *.a *.d *.so $(TARGET) fma
+	rm -f *.o *.a *.d *.so $(CTARGET) $(GOTARGET)
 
 -include $(DEPS)
