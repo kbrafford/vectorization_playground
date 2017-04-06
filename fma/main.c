@@ -32,6 +32,43 @@ int main(void)
 
   printf("%f, %f\n", results_dp[0], results_dp[1]);
 
-  return 0;
+/*
+ *  AVX2
+ */
+  /* taylor series for sin */
+  float coeffs_sp_avx2[] = { 0.0f,                  /* c   */
+                             1.0f,                  /* x   */
+					         0.0f,                  /* x^2 */
+					         -1.0/(3*2),            /* x^3 */
+				  	         0.0f,                  /* x^4 */
+		  			         1.0/(5*4*3*2),         /* x^5 */
+	  				         0.0f,                  /* x^6 */
+					         -1.0/(7*6*5*4*3*2),    /* x^7 */
+					         0.0f,                  /* x^8 */
+							 1.0/(9*8*7*6*5*4*3*2)  /* x^9 */
+                           };
+
+  /* create an array of all of the X positions to evaluate */
+#define _TAU (2.0*3.14159265359)
+  float x_sp_avx2[] = { -_TAU * (3. / 8.0),
+		                -_TAU * (2. / 8.0),
+		                -_TAU * (1. / 8.0),
+ 		                 _TAU * (0. / 8.0),
+ 		                 _TAU * (1. / 8.0),
+		                 _TAU * (2. / 8.0),
+		                 _TAU * (3. / 8.0),
+		                 _TAU * (4. / 8.0),
+                      };
+  float results_sp_avx2[8];
+
+  horner_fma_sp_avx2(x_sp_avx2, coeffs_sp_avx2,
+		             sizeof(coeffs_sp_avx2)/sizeof(coeffs_sp_avx2[0]),
+				     results_sp_avx2);
+
+  float *p = results_sp_avx2;
+  printf("\n%f %f %f %f %f %f %f %f\n",
+		  p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
+
+#undef _TAU
 }
 
