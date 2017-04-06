@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "fma.h"
 
-void main(void)
+int main(void)
 {
   printf("Single precision:\n");
 
@@ -32,5 +32,6 @@ void main(void)
 
   printf("%f, %f\n", results_dp[0], results_dp[1]);
 
+  return 0;
 }
 
