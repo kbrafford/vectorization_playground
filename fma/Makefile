@@ -1,7 +1,15 @@
-CTARGET := democ
-STATICLIB := libfma.a
-SHAREDLIB := libfmashared.so
-GOTARGET := demogo
+ifeq ($(OS), Windows_NT)
+    CTARGET := democ.exe
+    STATICLIB := libfma.a
+    SHAREDLIB := libfmashared.dll
+    GOTARGET := demogo.exe
+else
+    CTARGET := democ
+    STATICLIB := libfma.a
+    SHAREDLIB := libfmashared.so
+    GOTARGET := demogo
+endif
+
 LIBSRC := fma.c
 LIBOBJ := $(LIBSRC:.c=.o)
 LIBDEP := $(LIBOBJ:.o=.d)
@@ -12,7 +20,7 @@ GOSRC := fma.go
 DEPS := $(LIBDEP) $(MAINDEP)
 OBJS := $(MAINOBJ) $(LIBOBJ)
 
-CPPFLAGS += -MMD
+CPPFLAGS := -MMD
 CPPFLAGS += -MP
 
 CFLAGS := -fPIC
@@ -22,7 +30,7 @@ all : $(CTARGET) $(STATICLIB) $(SHAREDLIB) $(GOTARGET)
 
 $(CTARGET): main.o $(STATICLIB) fma.go
 	gcc -o $@ $(filter %.o,$^) $(STATICLIB)
-	strip $@
+	strip $@ 
 
 $(GOTARGET): $(GOSRC) $(STATICLIB)
 	go build -o $(GOTARGET) $(GOSRC)
@@ -37,6 +45,6 @@ $(SHAREDLIB): $(LIBOBJ)
 	gcc -shared -o $@ $^
 
 clean:
-	rm -f *.o *.a *.d *.so $(CTARGET) $(GOTARGET)
+	rm -f *.o *.a *.d *.so *.dll $(CTARGET) $(GOTARGET)
 
 -include $(DEPS)
